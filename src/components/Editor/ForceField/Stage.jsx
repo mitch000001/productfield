@@ -36,7 +36,10 @@ export const Stage = React.createClass({
       minLengthForArrowsToDisplay: 2,
       width:  this.props.width,
       height: this.props.height,
-      skin: this.props.isPresentation ? darkSkin : lightSkin
+      skin: this.props.isPresentation ? darkSkin : lightSkin,
+      visibility: {
+        forces: false
+      }
     }
   },
 

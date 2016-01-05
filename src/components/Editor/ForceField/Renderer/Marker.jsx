@@ -9,6 +9,9 @@ export default React.createClass({
     const centerY = Math.floor(this.props.stageHeight / 2 - this.props.fieldSize / 2);
     const circleRadius = Math.sqrt(2 * this.props.gridUnit * this.props.gridUnit);
 
+    // circelA = 14 => r = 2.11 für contextA = 21.5 == coreA = 5*5 - 1/4 circleA
+    // const circleRadius = 2.11 * this.props.gridUnit;
+
     const gridUnit = this.props.gridUnit;
     var characterMarkerCoordinates = [2 * gridUnit - 1/2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit,2 * gridUnit - 1/2 * gridUnit].join()
 

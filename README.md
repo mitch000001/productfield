@@ -15,6 +15,12 @@ A Force Field Analysis Tools for the Product Field Canvas.
 - `webpack-dev-server`
 - visit `http://localhost:8080/`
 
+### Run Illustrator Server
+
+The illustrator server renders the product field as svg image. I will be used to create explaing images fpr the product field (e-)book.
+
+- `webpack && node server`
+
 ### Datastructure
 
 ```
