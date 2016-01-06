@@ -32,9 +32,12 @@ const DOTS_IN_FIELD = 20;
 
 function getProperties(params) {
 
+  console.log(params);
   // @todo url params
   let width = params.width || 800;
   let height = params.height || 800;
+  let highlights = params.highlights || '';
+  highlights = highlights.split(',');
 
   const maximumFieldSize = Math.floor(Math.min(width, height));
   const gridUnit = Math.floor(maximumFieldSize / DOTS_IN_FIELD);
@@ -57,6 +60,7 @@ function getProperties(params) {
       grid: true,
       marker: true
     },
+    highlights: highlights,
     fieldSize: fieldSize,
     normalizeCoordinates: function(x, y) {
 

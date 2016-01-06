@@ -10,6 +10,8 @@ export default React.createClass({
     const GU = this.props.gridUnit;
     const origin = {x: this.props.stageWidth / 2, y: this.props.stageHeight / 2};
     const dotsColor = this.props.skin.dots;
+    const highlights = new Set(this.props.highlights || []);
+
     let circles = [];
 
     [{x: 1, y: 1}, {x: 1, y: -1}, {x: -1, y: -1}, {x: -1, y: 1}].forEach(function(quadrantCoefficient) {
@@ -20,15 +22,21 @@ export default React.createClass({
           let x = quadrantCoefficient.x * ix;
           let y = quadrantCoefficient.y * iy;
           let forceFieldDescriptor = new ForceFieldDescriptor(x / 10, y / 10);
-          let radius = 1;
+          var radius = 1;
           if(forceFieldDescriptor.isCenter()) {
             continue;
           }
-          if(forceFieldDescriptor.isContext()) {
-            radius = 1.5;
-          }
           const classNames = forceFieldDescriptor.getClassNames();
+          const names = new Set(forceFieldDescriptor.getNames());
+
+          let intersection = new Set([...names].filter(x => highlights.has(x)));
+
+          if(intersection.size) {
+            radius = 4;
+          }
+
           circles.push(<circle key={`${x},${y}`} className={classNames} cx={x * GU} cy={-y * GU} r={radius} stroke={dotsColor} ></circle>)
+
         }
       }
 
