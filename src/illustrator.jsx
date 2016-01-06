@@ -104,7 +104,7 @@ export default function render(params) {
 
   // 2) and inject them inside a style element
   return ReactDOMServer.renderToString(
-    <svg>
+    <svg width={props.width} height={props.height} viewBox={"0 0 " + props.width + " " + props.height}>
       <style>{styles}</style>
       <Renderer {...props} />
     </svg>
