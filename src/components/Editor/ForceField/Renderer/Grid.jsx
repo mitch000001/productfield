@@ -1,5 +1,6 @@
 import React from 'react';
 import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
+import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
 export default React.createClass({
 
@@ -14,13 +15,13 @@ export default React.createClass({
 
     let circles = [];
 
-    [{x: 1, y: 1}, {x: 1, y: -1}, {x: -1, y: -1}, {x: -1, y: 1}].forEach(function(quadrantCoefficient) {
+    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
 
       for(let ix = 0; ix < 10; ix++) {
         for(let iy = 0; iy < 10; iy++) {
 
-          let x = quadrantCoefficient.x * ix;
-          let y = quadrantCoefficient.y * iy;
+          let x = quadrant.coefficient.x * ix;
+          let y = quadrant.coefficient.y * iy;
           let forceFieldDescriptor = new ForceFieldDescriptor(x / 10, y / 10);
           var radius = 1;
           if(forceFieldDescriptor.isCenter()) {
