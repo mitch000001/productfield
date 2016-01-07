@@ -33,13 +33,13 @@ export default React.createClass({
     ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
 
       let x1 = 0 * quadrant.coefficient.x;
-      let y1 = 1.8 * quadrant.coefficient.y;
+      let y1 = ForceFieldAnatomy.CENTER_RADIUS * quadrant.coefficient.y;
       let x2 = 0 * quadrant.coefficient.x;
       let y2 = 5 * quadrant.coefficient.y;
 
       lines.push(getLine(P(x1, y1), P(x2, y2), GU));
 
-      x1 = 1.8 * quadrant.coefficient.x;
+      x1 = ForceFieldAnatomy.CENTER_RADIUS * quadrant.coefficient.x;
       y1 = 0 * quadrant.coefficient.y;
       x2 = 5 * quadrant.coefficient.x;
       y2 = 0 * quadrant.coefficient.y;
@@ -73,7 +73,7 @@ export default React.createClass({
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g id="Lines" transform={transform}>{lines}</g>;
+    return <g className="Lines" transform={transform}>{lines}</g>;
   }
 
 });

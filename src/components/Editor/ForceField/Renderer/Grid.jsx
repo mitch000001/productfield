@@ -11,7 +11,7 @@ export default React.createClass({
     const GU = this.props.gridUnit;
     const origin = {x: this.props.stageWidth / 2, y: this.props.stageHeight / 2};
     const dotsColor = this.props.skin.dots;
-    const highlights = new Set(this.props.highlights || []);
+    const dotHighlights = new Set(this.props.dots || []);
 
     let circles = [];
 
@@ -30,7 +30,7 @@ export default React.createClass({
           const classNames = forceFieldDescriptor.getClassNames();
           const names = new Set(forceFieldDescriptor.getNames());
 
-          let intersection = new Set([...names].filter(x => highlights.has(x)));
+          let intersection = new Set([...names].filter(x => dotHighlights.has(x)));
 
           if(intersection.size) {
             radius = 4;
@@ -44,7 +44,7 @@ export default React.createClass({
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g id="Grid-dots" transform={transform}>{circles}</g>;
+    return <g className="Grid" transform={transform}>{circles}</g>;
   }
 
 });
