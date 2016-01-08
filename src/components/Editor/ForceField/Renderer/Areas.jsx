@@ -6,7 +6,19 @@ export default React.createClass({
 
   statics: {
     getDefs: function() {
-      return <mask id="cut-off-bottom"><rect x="0" y="0" width="200" height="100" fill="#000000" /></mask>
+      return [<pattern key="areas-defs-stripe" id="Stripe" 
+                 width="10" height="10"
+                 patternUnits="userSpaceOnUse">
+                  <path d='M-1,1 l2,-2
+           M0,10 l10,-10
+           M9,11 l2,-2' stroke='#000000' stroke-width='0.5'/>
+            </pattern>,
+            <pattern key="areas-defs-crosshatch" id="Crosshatch" 
+                 width="8" height="8"
+                 patternUnits="userSpaceOnUse">
+                  <path className="Pattern-crosshatch" d='M0 0L8 8ZM8 0L0 8Z' stroke-width='1' />
+            </pattern>]
+
     }
   },
 
@@ -23,7 +35,7 @@ export default React.createClass({
     let w = 5;
     let h = 5;
      groups.push(
-        <g className={'Areas-core'}>
+        <g key={'core'} className={'Areas-core'}>
           <rect className={'Areas-core Areas-problem'} x={0} y={-5 * GU} width={w * GU} height={w * GU} />
           <rect className={'Areas-core Areas-competitor'} x={0} y={0} width={w * GU} height={w * GU} />
           <rect className={'Areas-core Areas-solution'} x={-5 * GU} y={0} width={w * GU} height={w * GU} />
@@ -31,14 +43,14 @@ export default React.createClass({
         </g>
       );
 
-    let contextPoints1 = [[0,5], [0,8], [8,8], [5,5]];
+    let contextPoints1 = [[0,5], [0,8.5], [8,8.5], [8,8], [5,5]];
     let gridContextPoints1 = contextPoints1.map(function(point) {
       return [point[0] * GU, -point[1] * GU]
     }).reduce(function(a, b) {
       return a.concat(b);
     }, []).join(',');
 
-    let contextPoints2 = [[5,5], [8,8], [8,0], [5,0]];
+    let contextPoints2 = [[5,5], [8,8], [8.5,8], [8.5,0], [5,0]];
     let gridContextPoints2 = contextPoints2.map(function(point) {
         return [point[0] * GU, -point[1] * GU]
       }).reduce(function(a, b) {

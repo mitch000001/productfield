@@ -26,15 +26,15 @@ export default React.createClass({
 
       groups.push(
         <g key={deg} transform={transform}>
-        <polyline points={characterMarkerCoordinates} strokeWidth='2' fill='none' stroke={props.skin.marker} />
-        <circle r='4' cx={5 * GU} cy={-5 * GU} fill={props.skin.marker} />
+        <polyline points={characterMarkerCoordinates} strokeWidth='3' fill='none' stroke={props.skin.marker} />
+        <circle r='6' cx={5 * GU} cy={-5 * GU} fill={props.skin.marker} />
         </g>
       );
 
     });
 
     groups.push(
-      <circle cx={0} cy={0} r={circleRadius * GU} fill='none' strokeWidth='2' stroke={this.props.skin.marker} />
+      <circle key={'circle'} cx={0} cy={0} r={circleRadius * GU} fill='none' strokeWidth='3' stroke={this.props.skin.marker} />
     )
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';

@@ -5,11 +5,10 @@ import {ForceFieldCalculationSingleton} from '../../../../ForceFieldCalculation'
 var ForceArrow = React.createClass({
 
   render: function() {
-    debugger;
     var transform = "rotate(" + this.props.deg + "," + this.props.x + "," + this.props.y + ")";
     var triangleCoordinates = [this.props.x2, this.props.y2, this.props.x2 + this.props.triangleSize, this.props.y2, this.props.x2, this.props.y2 - this.props.triangleSize, this.props.x2 - this.props.triangleSize, this.props.y2, this.props.x2, this.props.y2].join();
-    return <g><line x1={this.props.x} y1={this.props.y} x2={this.props.x2} y2={this.props.y2} strokeWidth='1' stroke={this.props.skin.arrows} transform={transform} />
-      <polyline points={triangleCoordinates} transform={transform} fill={this.props.skin.arrows} /></g>;
+    return <g><line x1={this.props.x} y1={this.props.y} x2={this.props.x2} y2={this.props.y2} strokeWidth='1' stroke={'#000000'} transform={transform} />
+      <polyline points={triangleCoordinates} transform={transform} fill={'#000000'} /></g>;
 
   }
 });
@@ -45,9 +44,9 @@ export default React.createClass({
         var deg = (180 / Math.PI) * a;
 
         if(yDelta > 0) {
-          var deg = 180 / a;
+          deg = 180 / a;
         } else {
-          var deg = 180 / a + 180;
+          deg = 180 / a + 180;
         }
 
         var props = {
@@ -56,7 +55,8 @@ export default React.createClass({
           x2: x2,
           y: y,
           y2: y2,
-          triangleSize: 4
+          triangleSize: 4,
+          skin: this.props.skin
         }
 
         arrows.push(<ForceArrow key={`${x},${y}`} {...props} />)

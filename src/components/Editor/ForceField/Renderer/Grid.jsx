@@ -17,8 +17,8 @@ export default React.createClass({
 
     ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
 
-      for(let ix = 0; ix < 10; ix++) {
-        for(let iy = 0; iy < 10; iy++) {
+      for(let ix = 1; ix < 10; ix++) {
+        for(let iy = 1; iy < 10; iy++) {
 
           let x = quadrant.coefficient.x * ix;
           let y = quadrant.coefficient.y * iy;

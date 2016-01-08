@@ -18,7 +18,8 @@ export default React.createClass({
     highlights: React.PropTypes.array,
     lables: React.PropTypes.array,
     dots: React.PropTypes.array,
-    skin: React.PropTypes.object
+    skin: React.PropTypes.object,
+    visibility: React.PropTypes.object
   },
 
   render: function() {
@@ -32,16 +33,27 @@ export default React.createClass({
     this.props.labels.forEach(function(name) {
       classNames.push('label-' + name);
     });
+
+    this.props.lines.forEach(function(name) {
+      classNames.push('line-' + name);
+    });
     var className = classNames.join(' ');
 
+    let defs = Areas.getDefs().concat(Labels.getDefs());
+
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
-      <Grid stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} dots={this.props.dots} />
+      <defs>{defs}</defs>
+      { this.props.visibility.grid ?
+        <Grid stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} dots={this.props.dots} />
+      : null }
       <Marker stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       <Lines stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       <Areas stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
-      <Labels stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+      { this.props.visibility.labels ?
+        <Labels stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+      : null }
       { this.props.visibility.forces ?
-        <Forces stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates}  skin={this.props.skin} />
+        <Forces stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
       : null }
     </svg>;
   },
