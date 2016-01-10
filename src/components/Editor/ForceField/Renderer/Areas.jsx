@@ -37,7 +37,7 @@ export default React.createClass({
      groups.push(
         <g key={'core'} className={'Areas-core'}>
           <rect className={'Areas-core Areas-problem'} x={0} y={-5 * GU} width={w * GU} height={w * GU} />
-          <rect className={'Areas-core Areas-competitor'} x={0} y={0} width={w * GU} height={w * GU} />
+          <rect className={'Areas-core Areas-competition'} x={0} y={0} width={w * GU} height={w * GU} />
           <rect className={'Areas-core Areas-solution'} x={-5 * GU} y={0} width={w * GU} height={w * GU} />
           <rect className={'Areas-core Areas-uniqueness'} x={-5 * GU} y={-5 * GU} width={w * GU} height={w * GU} />
         </g>
