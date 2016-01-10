@@ -10,7 +10,7 @@
     "start": "node server",
     "serve": "webpack && node server",
     "build": "webpack",
-    "postinstall": "npm run build",
+    "postinstall": "npm run build"
   },
   "author": "",
   "license": "ISC",
