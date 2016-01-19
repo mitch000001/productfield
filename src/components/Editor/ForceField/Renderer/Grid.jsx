@@ -17,8 +17,12 @@ export default React.createClass({
 
     ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
 
-      for(let ix = 1; ix < 10; ix++) {
-        for(let iy = 1; iy < 10; iy++) {
+      for(let ix = 0; ix < 10; ix++) {
+        for(let iy = 0; iy < 10; iy++) {
+
+          if (ix + iy == 0) {
+            continue;
+          }
 
           let x = quadrant.coefficient.x * ix;
           let y = quadrant.coefficient.y * iy;
@@ -36,7 +40,7 @@ export default React.createClass({
             radius = 4;
           }
 
-          circles.push(<circle key={`${x},${y}`} className={classNames} cx={x * GU} cy={-y * GU} r={radius} stroke={dotsColor} ></circle>)
+          circles.push(<circle key={`${quadrant.deg}:${x},${y}`} className={classNames} cx={x * GU} cy={-y * GU} r={radius} stroke={dotsColor} ></circle>)
 
         }
       }
