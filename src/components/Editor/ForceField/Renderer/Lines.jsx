@@ -113,7 +113,7 @@ export default React.createClass({
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g className="Lines" transform={transform}>{lines}</g>;
+    return <g id="Lines" className="Lines" transform={transform}>{lines}</g>;
   }
 
 });

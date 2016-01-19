@@ -64,7 +64,7 @@ export default React.createClass({
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g className="Labels" transform={transform}>{labels}</g>;
+    return <g id="Labels" className="Labels" transform={transform}>{labels}</g>;
   }
 
 });

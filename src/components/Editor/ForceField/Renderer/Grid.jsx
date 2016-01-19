@@ -44,7 +44,7 @@ export default React.createClass({
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g className="Grid" transform={transform}>{circles}</g>;
+    return <g id="Grid" className="Grid" transform={transform}>{circles}</g>;
   }
 
 });

@@ -81,7 +81,7 @@ export default React.createClass({
     });
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g className="Areas" transform={transform}>{groups}</g>;
+    return <g id="Areas" className="Areas" transform={transform}>{groups}</g>;
   },
 
 });

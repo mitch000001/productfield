@@ -38,7 +38,7 @@ export default React.createClass({
     )
 
     let transform = 'translate(' + origin.x + ',' + origin.y + ')';
-    return <g className="Marker" transform={transform}>{groups}</g>;
+    return <g id="Marker" className="Marker" transform={transform}>{groups}</g>;
 
   }
 });
