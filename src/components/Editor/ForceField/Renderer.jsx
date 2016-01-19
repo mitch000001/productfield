@@ -22,6 +22,11 @@ export default React.createClass({
     visibility: React.PropTypes.object
   },
 
+  defaultProps: {
+    width: 600,
+    height: 600
+  },
+
   render: function() {
     var rendererStyles = this.getRendererStyle();
 
@@ -39,12 +44,20 @@ export default React.createClass({
     });
     var className = classNames.join(' ');
 
-    let defs = Areas.getDefs().concat(Labels.getDefs());
+    const offsetX = Math.floor(this.props.width / 2 - this.props.fieldSize / 2) % this.props.gridUnit
+    const offsetY = Math.floor(this.props.height / 2 - this.props.fieldSize / 2) % this.props.gridUnit
+
+    let defs = Areas.getDefs()
+              .concat(Labels.getDefs())
+              .concat(Grid.getDefs(this.props.gridUnit, offsetX, offsetY))
 
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
       <defs>{defs}</defs>
       { this.props.visibility.grid ?
-        <Grid stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} dots={this.props.dots} />
+        <g>
+          <rect width={this.props.width} height={this.props.height} fill="url(#dots)" />
+          <Grid stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} dots={this.props.dots} />
+        </g>
       : null }
       <Marker stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       <Lines stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />

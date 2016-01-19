@@ -5,11 +5,25 @@ import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 export default React.createClass({
 
 
+  statics: {
+    getDefs: function(gridUnit, offsetX, offsetY) {
+      
+
+      let radius = 1
+      return [<pattern key="Grid-defs-dots" id="dots" patternTransform={`translate(${gridUnit / 2}, ${gridUnit / 2})`}
+                 x={gridUnit / 2} y={gridUnit / 2} width={gridUnit} height={gridUnit}
+                 patternUnits="userSpaceOnUse">
+                  <circle className="off" cx={offsetX} cy={offsetY} r={radius} fill="#000000" stroke="none"></circle>
+            </pattern>]
+
+    }
+  },
+
   render: function() {
 
     const fieldSize = this.props.fieldSize;
     const GU = this.props.gridUnit;
-    const origin = {x: this.props.stageWidth / 2, y: this.props.stageHeight / 2};
+    const origin = {x: Math.floor(this.props.stageWidth / 2), y: Math.floor(this.props.stageHeight / 2)};
     const dotsColor = this.props.skin.dots;
     const dotHighlights = new Set(this.props.dots || []);
 
