@@ -7,30 +7,42 @@ import Labels from './Renderer/Labels';
 import Areas from './Renderer/Areas';
 import Forces from './Renderer/Forces';
 
+var visibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Lables', 'Forces']
 export default React.createClass({
 
+  statics: {
+    visibility: visibility
+  },
+
   propTypes: {
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    gridUnit: React.PropTypes.number,
-    fieldSize: React.PropTypes.number,
-    normalizeCoordinates: React.PropTypes.func,
+    width: React.PropTypes.number.isRequired,
+    height: React.PropTypes.number.isRequired,
+    gridUnit: React.PropTypes.number.isRequired,
+    fieldSize: React.PropTypes.number.isRequired,
+    normalizeCoordinates: React.PropTypes.func.isRequired,
+    skin: React.PropTypes.object.isRequired,
     highlights: React.PropTypes.array,
     lables: React.PropTypes.array,
     dots: React.PropTypes.array,
-    skin: React.PropTypes.object,
-    visibility: React.PropTypes.object
+    visibility: React.PropTypes.array
   },
 
   defaultProps: {
-    width: 600,
-    height: 600
+    highlights: ['all'],
+    lables: ['all'],
+    lables: ['all'],
+    visibility: visibility
+  },
+
+  isVisible: function(name) {
+    return (this.props.visibility.indexOf(name) != -1)
   },
 
   render: function() {
     var rendererStyles = this.getRendererStyle();
-
     var classNames = [];
+
+
     this.props.highlights.forEach(function(name) {
       classNames.push('highlight-' + name);
     });
@@ -53,15 +65,21 @@ export default React.createClass({
 
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
       <defs>{defs}</defs>
-      { this.props.visibility.grid ?
+      { this.isVisible('Grid') ?
         <g>
           <rect width={this.props.width} height={this.props.height} fill="url(#dots)" />
           <Grid stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} dots={this.props.dots} />
         </g>
       : null }
-      <Marker stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
-      <Lines stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
-      <Areas stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+      { this.isVisible('Marker') ?
+        <Marker stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
+      : null }
+      { this.isVisible('Marker') ?
+        <Lines stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
+      : null }
+      { this.isVisible('Marker') ?
+        <Areas stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+      : null }
       { this.props.visibility.labels ?
         <Labels stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
       : null }
@@ -79,3 +97,5 @@ export default React.createClass({
     }
   }
 });
+
+

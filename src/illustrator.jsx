@@ -56,6 +56,8 @@ function getProperties(params) {
     console.log(highlights);
   }
 
+  let visibility = params.visibility || Renderer.visibility;
+
   let dots = params.dots || '';
   dots = dots.split(',');
 
@@ -76,13 +78,7 @@ function getProperties(params) {
       areas: '#FFFF00',
       arrows: '#000000'
     },
-    visibility: {
-      forces: false,
-      grid: true,
-      marker: true,
-      lines: true,
-      labels: true
-    },
+    visibility: visibility,
     highlights: highlights,
     labels: labels,
     dots: dots,
