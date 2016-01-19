@@ -7,7 +7,7 @@ export default React.createClass({
 
     const fieldSize = this.props.fieldSize;
     const GU = this.props.gridUnit;
-    const origin = {x: this.props.stageWidth / 2, y: this.props.stageHeight / 2};
+    const origin = {x: Math.floor(this.props.stageWidth / 2), y: Math.floor(this.props.stageHeight / 2)};
 
     const circleRadius = ForceFieldAnatomy.CENTER_RADIUS;
     // circelA = 14 => r = 2.11 für contextA = 21.5 == coreA = 5*5 - 1/4 circleA

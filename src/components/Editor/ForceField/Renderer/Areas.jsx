@@ -26,7 +26,7 @@ export default React.createClass({
 
     const fieldSize = this.props.fieldSize;
     const GU = this.props.gridUnit;
-    const origin = {x: this.props.stageWidth / 2, y: this.props.stageHeight / 2};
+    const origin = {x: Math.floor(this.props.stageWidth / 2), y: Math.floor(this.props.stageHeight / 2)};
     const dotsColor = this.props.skin.dots;
     const highlights = new Set(this.props.highlights || []);
 
