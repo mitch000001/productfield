@@ -7,13 +7,12 @@ export default React.createClass({
 
   statics: {
     getDefs: function(gridUnit, offsetX, offsetY) {
-      
 
       let radius = 1
-      return [<pattern key="Grid-defs-dots" id="dots" patternTransform={`translate(${gridUnit / 2}, ${gridUnit / 2})`}
-                 x={gridUnit / 2} y={gridUnit / 2} width={gridUnit} height={gridUnit}
+      return [<pattern key="Grid-defs-dots" id="dots"
+                 x={offsetX} y={offsetY} width={gridUnit} height={gridUnit}
                  patternUnits="userSpaceOnUse">
-                  <circle className="off" cx={offsetX} cy={offsetY} r={radius} fill="#000000" stroke="none"></circle>
+                  <circle className="off" cx={gridUnit / 2} cy={gridUnit / 2} r={radius} fill="#000000" stroke="none"></circle>
             </pattern>]
 
     }
@@ -31,8 +30,8 @@ export default React.createClass({
 
     ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
 
-      for(let ix = 0; ix < 10; ix++) {
-        for(let iy = 0; iy < 10; iy++) {
+      for(let ix = 0; ix < 11; ix++) {
+        for(let iy = 0; iy < 11; iy++) {
 
           if (ix + iy == 0) {
             continue;

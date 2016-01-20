@@ -7,11 +7,12 @@ import Labels from './Renderer/Labels';
 import Areas from './Renderer/Areas';
 import Forces from './Renderer/Forces';
 
-var visibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Lables', 'Forces']
+var defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels']
+
 export default React.createClass({
 
   statics: {
-    visibility: visibility
+    visibility: defaultVisibility
   },
 
   propTypes: {
@@ -31,7 +32,7 @@ export default React.createClass({
     highlights: ['all'],
     lables: ['all'],
     lables: ['all'],
-    visibility: visibility
+    visibility: defaultVisibility
   },
 
   isVisible: function(name) {
@@ -74,16 +75,16 @@ export default React.createClass({
       { this.isVisible('Marker') ?
         <Marker stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       : null }
-      { this.isVisible('Marker') ?
+      { this.isVisible('Lines') ?
         <Lines stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       : null }
-      { this.isVisible('Marker') ?
+      { this.isVisible('Areas') ?
         <Areas stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
       : null }
-      { this.props.visibility.labels ?
+      { this.isVisible('Labels') ?
         <Labels stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
       : null }
-      { this.props.visibility.forces ?
+      { this.isVisible('Forces') ?
         <Forces stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
       : null }
     </svg>;
