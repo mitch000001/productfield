@@ -3,6 +3,19 @@ import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
 
 export default React.createClass({
 
+  statics: {
+    getDefs: function(gridUnit, origin, width, height) {
+
+      let radius = ForceFieldAnatomy.CENTER_RADIUS * gridUnit
+
+      return [<mask maskUnits="userSpaceOnUse" key="Marker-defs-circle" id="circle">
+                <rect width={width} height={height} fill="#FFFFFF" />
+                <circle cx={origin.x} cy={origin.y} r={radius} fill="#000000"></circle>
+            </mask>]
+
+    }
+  },
+
   render: function() {
 
     const fieldSize = this.props.fieldSize;

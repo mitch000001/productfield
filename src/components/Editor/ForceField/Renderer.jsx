@@ -7,6 +7,15 @@ import Labels from './Renderer/Labels';
 import Areas from './Renderer/Areas';
 import Forces from './Renderer/Forces';
 
+import DOMProperty from 'react/lib/DOMProperty';
+
+const customAttributes = ['mask', 'maskUnits'];
+DOMProperty.injection.injectDOMPropertyConfig({
+  isCustomAttribute: function (attributeName) {
+    return (customAttributes.indexOf(attributeName) !== -1);
+  }
+});
+
 var defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels']
 
 export default React.createClass({
@@ -59,16 +68,18 @@ export default React.createClass({
 
     const offsetX = Math.floor(this.props.width / 2 - this.props.fieldSize / 2) % this.props.gridUnit
     const offsetY = Math.floor(this.props.height / 2 - this.props.fieldSize / 2) % this.props.gridUnit
+    const origin = {x: Math.floor(this.props.width / 2), y: Math.floor(this.props.height / 2)};
 
     let defs = Areas.getDefs()
               .concat(Labels.getDefs())
               .concat(Grid.getDefs(this.props.gridUnit, offsetX, offsetY))
+              .concat(Marker.getDefs(this.props.gridUnit, origin, this.props.width, this.props.height))
 
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
       <defs>{defs}</defs>
       { this.isVisible('Grid') ?
         <g>
-          <rect width={this.props.width} height={this.props.height} fill="url(#dots)" />
+          <rect mask={"url(#circle)"} width={this.props.width} height={this.props.height} fill="url(#dots)" />
           <Grid stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} dots={this.props.dots} />
         </g>
       : null }
@@ -79,7 +90,9 @@ export default React.createClass({
         <Lines stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       : null }
       { this.isVisible('Areas') ?
-        <Areas stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+        <g mask={"url(#circle)"}>
+          <Areas stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+        </g>
       : null }
       { this.isVisible('Labels') ?
         <Labels stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
