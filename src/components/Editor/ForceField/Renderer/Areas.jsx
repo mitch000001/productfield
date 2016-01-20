@@ -1,87 +1,76 @@
-import React from 'react';
-import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import React, {Component, PropTypes} from 'react';
+import ForceFieldAnatomy from 'ForceFieldAnatomy';
 
-export default React.createClass({
+function convertPointsToScaledSvgPath(points, GU) {
+  points.map(
+      (point) => {
+        return Array(point[0] * GU, -point[1] * GU);
+      }
+    )
+    .reduce(
+      (a, b) => {
+        return a.concat(b);
+      }
+    , [])
+    .join(',');
+}
 
-  statics: {
-    getDefs: function() {
-      return [<pattern key="areas-defs-stripe" id="Stripe" 
-                 width="10" height="10"
-                 patternUnits="userSpaceOnUse">
-                  <path d='M-1,1 l2,-2
-           M0,10 l10,-10
-           M9,11 l2,-2' stroke='#000000' stroke-width='0.5'/>
-            </pattern>,
-            <pattern key="areas-defs-crosshatch" id="Crosshatch" 
-                 width="8" height="8"
-                 patternUnits="userSpaceOnUse">
-                  <path className="Pattern-crosshatch" d='M0 0L8 8ZM8 0L0 8Z' stroke-width='1' />
-            </pattern>]
+export default class Areas extends Component {
 
-    }
-  },
+  render() {
 
-  render: function() {
+    /*eslint no-magic-numbers:0*/
 
-    const fieldSize = this.props.fieldSize;
     const GU = this.props.gridUnit;
     const origin = {x: Math.floor(this.props.stageWidth / 2), y: Math.floor(this.props.stageHeight / 2)};
-    const dotsColor = this.props.skin.dots;
-    const highlights = new Set(this.props.highlights || []);
 
-    let groups = [];
+    const groups = [];
 
-    let w = 5;
-    let h = 5;
+    const s = 5;
      groups.push(
         <g key={'core'} className={'Areas-core'}>
-          <rect className={'Areas-core Areas-problem'} x={0} y={-5 * GU} width={w * GU} height={w * GU} />
-          <rect className={'Areas-core Areas-competition'} x={0} y={0} width={w * GU} height={w * GU} />
-          <rect className={'Areas-core Areas-solution'} x={-5 * GU} y={0} width={w * GU} height={w * GU} />
-          <rect className={'Areas-core Areas-uniqueness'} x={-5 * GU} y={-5 * GU} width={w * GU} height={w * GU} />
+          <rect className={'Areas-core Areas-problem'} x={0} y={-s * GU} width={s * GU} height={s * GU} />
+          <rect className={'Areas-core Areas-competition'} x={0} y={0} width={s * GU} height={s * GU} />
+          <rect className={'Areas-core Areas-solution'} x={-s * GU} y={0} width={s * GU} height={s * GU} />
+          <rect className={'Areas-core Areas-uniqueness'} x={-s * GU} y={-s * GU} width={s * GU} height={s * GU} />
         </g>
       );
 
-    let contextPoints1 = [[0,5], [0,8.5], [8,8.5], [8,8], [5,5]];
-    let gridContextPoints1 = contextPoints1.map(function(point) {
-      return [point[0] * GU, -point[1] * GU]
-    }).reduce(function(a, b) {
-      return a.concat(b);
-    }, []).join(',');
+    const gridContextPoints1 = convertPointsToScaledSvgPath([[0,5], [0,8.5], [8,8.5], [8,8], [5,5]], GU);
 
-    let contextPoints2 = [[5,5], [8,8], [8.5,8], [8.5,0], [5,0]];
-    let gridContextPoints2 = contextPoints2.map(function(point) {
-        return [point[0] * GU, -point[1] * GU]
-      }).reduce(function(a, b) {
-        return a.concat(b);
-      }, []).join(',');
+    const gridContextPoints2 = convertPointsToScaledSvgPath([[5,5], [8,8], [8.5,8], [8.5,0], [5,0]], GU);
 
-    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
+    ForceFieldAnatomy.QUADRANTS.forEach((quadrant) => {
 
-      var deg = quadrant.deg;
-      var transform = "rotate(" + deg + ")";
+      const deg = quadrant.deg;
+      const transform = `rotate(${deg})`;
 
-      let w = 5 * quadrant.coefficient.x;
-      let h = 5 * quadrant.coefficient.y;
+      const w = 5 * quadrant.coefficient.x;
+      const h = 5 * quadrant.coefficient.y;
 
-      var label1 = 0;
-      if(deg == 90 || deg == 270) {
-        label1 = 1;
+      let labelIndex1 = 0;
+      let labelIndex2 = 1;
+      if(deg === 90 || deg === 270) {
+        labelIndex1 = 1;
+        labelIndex2 = 0;
       }
-      var label2 = label1 == 0 ? 1 : 0
 
       groups.push(
-        <g key={deg + '-1'} transform={transform}>
-          <polygon className={'Areas-context Areas-' + quadrant.labels[label1]} points={gridContextPoints1} />
-          <polygon className={'Areas-context Areas-' + quadrant.labels[label2]} points={gridContextPoints2} />
+        <g key={`${deg}'-1'`} transform={transform}>
+          <polygon className={`Areas-context Areas-${quadrant.labels[labelIndex1]}`} points={gridContextPoints1} />
+          <polygon className={`Areas-context Areas-${quadrant.labels[labelIndex2]}`} points={gridContextPoints2} />
         </g>
       );
 
     });
 
-    let transform = 'translate(' + origin.x + ',' + origin.y + ')';
+    const transform = `translate(${origin.x},${origin.y})`;
     return <g id="Areas" className="Areas" transform={transform}>{groups}</g>;
-  },
+  }
 
-});
+}
+
+Areas.propTypes = {
+  gridUnit: PropTypes.number.isRequired,
+  origin: PropTypes.object.isRequired,
+};

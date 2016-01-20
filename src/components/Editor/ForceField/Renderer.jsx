@@ -5,6 +5,7 @@ import Marker from './Renderer/Marker';
 import Lines from './Renderer/Lines';
 import Labels from './Renderer/Labels';
 import Areas from './Renderer/Areas';
+import {AreasDefsCrosshatch, AreasDefsStripe} from './Renderer/AreasDefs';
 import Forces from './Renderer/Forces';
 
 import DOMProperty from 'react/lib/DOMProperty';
@@ -70,13 +71,16 @@ export default React.createClass({
     const offsetY = Math.floor(this.props.height / 2 - this.props.fieldSize / 2) % this.props.gridUnit
     const origin = {x: Math.floor(this.props.width / 2), y: Math.floor(this.props.height / 2)};
 
-    let defs = Areas.getDefs()
-              .concat(Labels.getDefs())
+    let defs = Array().concat(Labels.getDefs())
               .concat(Grid.getDefs(this.props.gridUnit, offsetX, offsetY))
               .concat(Marker.getDefs(this.props.gridUnit, origin, this.props.width, this.props.height))
 
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
-      <defs>{defs}</defs>
+      <defs>
+        {defs}
+        <AreasDefsCrosshatch gridUnit={this.props.gridUnit} />
+        <AreasDefsStripe gridUnit={this.props.gridUnit} />
+      </defs>
       { this.isVisible('Grid') ?
         <g>
           <rect mask={"url(#circle)"} width={this.props.width} height={this.props.height} fill="url(#dots)" />
@@ -91,7 +95,7 @@ export default React.createClass({
       : null }
       { this.isVisible('Areas') ?
         <g mask={"url(#circle)"}>
-          <Areas stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+          <Areas origin={origin} gridUnit={this.props.gridUnit} skin={this.props.skin} />
         </g>
       : null }
       { this.isVisible('Labels') ?

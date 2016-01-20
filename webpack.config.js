@@ -1,4 +1,5 @@
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = [
   {
@@ -13,6 +14,15 @@ module.exports = [
             './src/illustrator.jsx'
             ]
     },
+    resolve: {
+      root: [path.resolve(__dirname, 'src')],
+      extensions: ['', '.js', '.jsx']
+    },
+    output: {
+      path: __dirname + '/dist',
+      publicPath: '/',
+      filename: '[name].bundle.js'
+    },
     module: {
       loaders: [{
         test: /\.jsx?$/,
@@ -22,14 +32,6 @@ module.exports = [
         test: /\.css$/, // Only .css files
         loader: 'style!css' // Run both loaders
       }]
-    },
-    resolve: {
-      extensions: ['', '.js', '.jsx']
-    },
-    output: {
-      path: __dirname + '/dist',
-      publicPath: '/',
-      filename: '[name].bundle.js'
     },
     devServer: {
       contentBase: './dist',
@@ -57,6 +59,7 @@ module.exports = [
       }]
     },
     resolve: {
+      root: [path.resolve(__dirname, 'src')],
       extensions: ['', '.js', '.jsx']
     },
     output: {

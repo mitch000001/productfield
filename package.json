@@ -1,10 +1,12 @@
 {
   "name": "product-field",
   "version": "0.0.1",
-  "description": "App for the product field canvas.",
+  "repository": "https://github.com/preciousforever/productfield",
+  "description": "App for The Product Field · productfield.com",
   "main": "states.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)' --reporter nyan",
+    "test": "eslint src/**/*.jsx && echo 'done'",
+    "lint:renderer": "eslint src/components/Editor/ForceField/Renderer/Areas*.jsx",
     "test:watch": "npm run test -- --watch",
     "dev": "webpack-dev-server",
     "start": "node server",
@@ -16,9 +18,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-eslint": "^4.1.6",
     "chai": "^3.3.0",
     "chai-immutable": "^1.3.0",
-    "css-loader": "^0.23.0"
+    "css-loader": "^0.23.0",
+    "eslint": "^1.10.3",
+    "eslint-plugin-babel": "^3.0.0",
+    "eslint-plugin-react": "^3.15.0"
   },
   "dependencies": {
     "babel-core": "^5.8.25",
