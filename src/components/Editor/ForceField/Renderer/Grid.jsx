@@ -26,24 +26,27 @@ export default class Grid extends Component {
       for(let ix = 0; ix <= Anatomy.DOTS_PER_SIDE; ix++) {
         for(let iy = 0; iy <= Anatomy.DOTS_PER_SIDE; iy++) {
 
-          if (ix + iy === 0) {
-            continue;
-          }
-
           const x = quadrant.coefficient.x * ix;
           const y = quadrant.coefficient.y * iy;
           const TEN = 10;
           const forceFieldDescriptor = new ForceFieldDescriptor(x / TEN, y / TEN);
           
           if(forceFieldDescriptor.isCenter()) {
-            continue;
+            //continue;
           }
-          let radius = 1;
+          let radius = 0.5;
           const classNames = forceFieldDescriptor.getClassNames();
           const names = new Set(forceFieldDescriptor.getNames());
 
           if(hasIntersection(names, dotHighlights)) {
-            radius = 4;
+            radius = 2;
+          }
+
+          if(dotHighlights.has('in-out')) {
+            radius = (11 + -x) / 3;
+          }
+          if(dotHighlights.has('abstract-concrete')) {
+            radius = (11 + -y) / 2.5;
           }
 
           circles.push(<circle key={`${quadrant.deg}:${x},${y}`} className={classNames} cx={x * GU} cy={-y * GU} r={radius} stroke={dotsColor} ></circle>);

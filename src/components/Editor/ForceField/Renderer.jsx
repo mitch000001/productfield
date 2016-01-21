@@ -66,9 +66,9 @@ export default React.createClass({
     });
     var className = classNames.join(' ');
 
-    const offsetX = Math.floor(this.props.width / 2 - this.props.fieldSize / 2) % this.props.gridUnit
-    const offsetY = Math.floor(this.props.height / 2 - this.props.fieldSize / 2) % this.props.gridUnit
-    const origin = {x: Math.floor(this.props.width / 2), y: Math.floor(this.props.height / 2)};
+    const offsetX = this.props.width / 2 - this.props.fieldSize / 2 % this.props.gridUnit
+    const offsetY = this.props.height / 2 - this.props.fieldSize / 2 % this.props.gridUnit
+    const origin = {x: this.props.width / 2, y: this.props.height / 2};
 
     let defsProps = {
       gridUnit: this.props.gridUnit,
@@ -76,6 +76,8 @@ export default React.createClass({
       origin: origin,
       size: {width: this.props.width, height: this.props.height},
     }
+
+    let gridMask = this.props.visibility.length == 1 && this.isVisible('Grid') ? '' : "url(#circle)";
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
       <defs>
         <Solid {...defsProps} />
@@ -85,8 +87,8 @@ export default React.createClass({
         <Dots {...defsProps} />
       </defs>
       { this.isVisible('Grid') ?
-        <g>
-          <rect mask={"url(#circle)"} width={this.props.width} height={this.props.height} fill="url(#dots)" />
+        <g mask={gridMask}>
+          <rect width={this.props.width} height={this.props.height} fill="url(#dots)" />
           <Grid origin={origin} gridUnit={this.props.gridUnit} skin={this.props.skin} dots={this.props.dots} />
         </g>
       : null }
