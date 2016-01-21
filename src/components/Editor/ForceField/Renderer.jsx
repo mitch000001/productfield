@@ -89,7 +89,7 @@ export default React.createClass({
       { this.isVisible('Grid') ?
         <g>
           <rect mask={"url(#circle)"} width={this.props.width} height={this.props.height} fill="url(#dots)" />
-          <Grid stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} dots={this.props.dots} />
+          <Grid origin={origin} gridUnit={this.props.gridUnit} skin={this.props.skin} dots={this.props.dots} />
         </g>
       : null }
       { this.isVisible('Marker') ?

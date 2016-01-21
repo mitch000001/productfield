@@ -1,67 +1,59 @@
-import React from 'react';
-import ForceFieldDescriptor from '../../../../ForceFieldDescriptor';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import React, {Component} from 'react';
+import PropTypes from 'PropTypes';
+import Anatomy from 'ForceFieldAnatomy';
+import ForceFieldDescriptor from 'ForceFieldDescriptor';
 
-export default React.createClass({
 
+function hasIntersection(a, b) {
+  return Set([...a].filter((x) => b.has(x))).size;
+}
 
-  statics: {
-    getDefs: function(gridUnit, offsetX, offsetY) {
+export default class Grid extends Component {
 
-      let radius = 1
-      return [<pattern key="Grid-defs-dots" id="dots"
-                 x={offsetX} y={offsetY} width={gridUnit} height={gridUnit}
-                 patternUnits="userSpaceOnUse">
-                  <circle className="off" cx={gridUnit / 2} cy={gridUnit / 2} r={radius} fill="#000000" stroke="none"></circle>
-            </pattern>]
+  render() {
 
-    }
-  },
-
-  render: function() {
-
-    const fieldSize = this.props.fieldSize;
     const GU = this.props.gridUnit;
-    const origin = {x: Math.floor(this.props.stageWidth / 2), y: Math.floor(this.props.stageHeight / 2)};
+    const origin = this.props.origin;
+
     const dotsColor = this.props.skin.dots;
     const dotHighlights = new Set(this.props.dots || []);
 
-    let circles = [];
+    const circles = [];
 
-    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
+    Anatomy.QUADRANTS.forEach((quadrant) => {
 
-      for(let ix = 0; ix < 11; ix++) {
-        for(let iy = 0; iy < 11; iy++) {
+      for(let ix = 0; ix <= Anatomy.DOTS_PER_SIDE; ix++) {
+        for(let iy = 0; iy <= Anatomy.DOTS_PER_SIDE; iy++) {
 
-          if (ix + iy == 0) {
+          if (ix + iy === 0) {
             continue;
           }
 
-          let x = quadrant.coefficient.x * ix;
-          let y = quadrant.coefficient.y * iy;
-          let forceFieldDescriptor = new ForceFieldDescriptor(x / 10, y / 10);
-          var radius = 1;
+          const x = quadrant.coefficient.x * ix;
+          const y = quadrant.coefficient.y * iy;
+          const TEN = 10;
+          const forceFieldDescriptor = new ForceFieldDescriptor(x / TEN, y / TEN);
+          
           if(forceFieldDescriptor.isCenter()) {
             continue;
           }
+          let radius = 1;
           const classNames = forceFieldDescriptor.getClassNames();
           const names = new Set(forceFieldDescriptor.getNames());
 
-          let intersection = new Set([...names].filter(x => dotHighlights.has(x)));
-
-          if(intersection.size) {
+          if(hasIntersection(names, dotHighlights)) {
             radius = 4;
           }
 
-          circles.push(<circle key={`${quadrant.deg}:${x},${y}`} className={classNames} cx={x * GU} cy={-y * GU} r={radius} stroke={dotsColor} ></circle>)
+          circles.push(<circle key={`${quadrant.deg}:${x},${y}`} className={classNames} cx={x * GU} cy={-y * GU} r={radius} stroke={dotsColor} ></circle>);
 
         }
       }
 
     });
 
-    let transform = 'translate(' + origin.x + ',' + origin.y + ')';
+    const transform = `translate(${origin.x},${origin.y})`;
     return <g id="Grid" className="Grid" transform={transform}>{circles}</g>;
   }
 
-});
+}
