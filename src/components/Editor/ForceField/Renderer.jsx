@@ -5,7 +5,7 @@ import Marker from './Renderer/Marker';
 import Lines from './Renderer/Lines';
 import Labels from './Renderer/Labels';
 import Areas from './Renderer/Areas';
-import {AreasDefsCrosshatch, AreasDefsStripe} from './Renderer/AreasDefs';
+import {Crosshatch, Stripe, Dots} from './Renderer/Defs/Patterns';
 import Forces from './Renderer/Forces';
 
 import DOMProperty from 'react/lib/DOMProperty';
@@ -72,14 +72,19 @@ export default React.createClass({
     const origin = {x: Math.floor(this.props.width / 2), y: Math.floor(this.props.height / 2)};
 
     let defs = Array().concat(Labels.getDefs())
-              .concat(Grid.getDefs(this.props.gridUnit, offsetX, offsetY))
               .concat(Marker.getDefs(this.props.gridUnit, origin, this.props.width, this.props.height))
 
+    let defsProps = {
+      gridUnit: this.props.gridUnit,
+      offset: {x: offsetX, y: offsetY},
+      origin: origin,
+    }
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
       <defs>
         {defs}
-        <AreasDefsCrosshatch gridUnit={this.props.gridUnit} />
-        <AreasDefsStripe gridUnit={this.props.gridUnit} />
+        <Crosshatch {...defsProps} />
+        <Stripe {...defsProps} />
+        <Dots {...defsProps} />
       </defs>
       { this.isVisible('Grid') ?
         <g>
