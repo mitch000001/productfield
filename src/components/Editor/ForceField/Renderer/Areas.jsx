@@ -23,7 +23,7 @@ export default class Areas extends Component {
     /*eslint no-magic-numbers:0*/
 
     const GU = this.props.gridUnit;
-    const origin = {x: Math.floor(this.props.stageWidth / 2), y: Math.floor(this.props.stageHeight / 2)};
+    const origin = this.props.origin;
 
     const groups = [];
 

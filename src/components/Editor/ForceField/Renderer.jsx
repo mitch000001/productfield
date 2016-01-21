@@ -5,9 +5,11 @@ import Marker from './Renderer/Marker';
 import Lines from './Renderer/Lines';
 import Labels from './Renderer/Labels';
 import Areas from './Renderer/Areas';
+import Forces from './Renderer/Forces';
+
 import {Crosshatch, Stripe, Dots} from './Renderer/Defs/Patterns';
 import {Circle} from './Renderer/Defs/Masks';
-import Forces from './Renderer/Forces';
+import {Solid} from './Renderer/Defs/Filters';
 
 import DOMProperty from 'react/lib/DOMProperty';
 
@@ -72,8 +74,6 @@ export default React.createClass({
     const offsetY = Math.floor(this.props.height / 2 - this.props.fieldSize / 2) % this.props.gridUnit
     const origin = {x: Math.floor(this.props.width / 2), y: Math.floor(this.props.height / 2)};
 
-    let defs = Labels.getDefs();
-
     let defsProps = {
       gridUnit: this.props.gridUnit,
       offset: {x: offsetX, y: offsetY},
@@ -82,7 +82,7 @@ export default React.createClass({
     }
     return <svg className={className} width={this.props.width} height={this.props.height} viewBox={"0 0 " + this.props.width + " " + this.props.height} style={rendererStyles}>
       <defs>
-        {defs}
+        <Solid {...defsProps} />
         <Circle {...defsProps} />
         <Crosshatch {...defsProps} />
         <Stripe {...defsProps} />
@@ -106,7 +106,7 @@ export default React.createClass({
         </g>
       : null }
       { this.isVisible('Labels') ?
-        <Labels stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
+        <Labels origin={origin} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       : null }
       { this.isVisible('Forces') ?
         <Forces stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} normalizeCoordinates={this.props.normalizeCoordinates} skin={this.props.skin} />
