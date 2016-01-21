@@ -11,14 +11,10 @@ import {Crosshatch, Stripe, Dots} from './Renderer/Defs/Patterns';
 import {Circle} from './Renderer/Defs/Masks';
 import {Solid} from './Renderer/Defs/Filters';
 
+import {allowCustomAttributes} from 'utils';
 import DOMProperty from 'react/lib/DOMProperty';
 
-const customAttributes = ['mask', 'maskUnits'];
-DOMProperty.injection.injectDOMPropertyConfig({
-  isCustomAttribute: function (attributeName) {
-    return (customAttributes.indexOf(attributeName) !== -1);
-  }
-});
+allowCustomAttributes(DOMProperty, ['mask', 'maskUnits']);
 
 var defaultVisibility = ['Grid', 'Marker', 'Lines', 'Areas', 'Labels']
 
@@ -98,7 +94,7 @@ export default React.createClass({
         <Marker origin={origin} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       : null }
       { this.isVisible('Lines') ?
-        <Lines stageWidth={this.props.width} stageHeight={this.props.height} fieldSize={this.props.fieldSize} gridUnit={this.props.gridUnit} skin={this.props.skin} />
+        <Lines origin={origin} gridUnit={this.props.gridUnit} skin={this.props.skin} />
       : null }
       { this.isVisible('Areas') ?
         <g mask={"url(#circle)"}>
