@@ -5,7 +5,7 @@ import ForceFieldDescriptor from 'ForceFieldDescriptor';
 
 
 function hasIntersection(a, b) {
-  const intersection = new Set([...a].filter((x) => b.has(x)))
+  const intersection = new Set([...a].filter((x) => b.has(x)));
   return intersection.size;
 }
 
