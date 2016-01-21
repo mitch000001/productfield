@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'PropTypes';
 import ForceFieldAnatomy from 'ForceFieldAnatomy';
 
 function convertPointsToScaledSvgPath(points, GU) {
@@ -72,5 +73,5 @@ export default class Areas extends Component {
 
 Areas.propTypes = {
   gridUnit: PropTypes.number.isRequired,
-  origin: PropTypes.object.isRequired,
+  origin: PropTypes.point.isRequired,
 };
