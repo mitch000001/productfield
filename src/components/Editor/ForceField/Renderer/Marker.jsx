@@ -1,46 +1,30 @@
-import React from 'react';
-import ForceFieldAnatomy from '../../../../ForceFieldAnatomy';
+import React, {Component} from 'react';
+import Anatomy from 'ForceFieldAnatomy';
 
-export default React.createClass({
+export default class Marker extends Component {
 
-  statics: {
-    getDefs: function(gridUnit, origin, width, height) {
+  render() {
 
-      let radius = ForceFieldAnatomy.CENTER_RADIUS * gridUnit
+    /*eslint no-magic-numbers:0*/
 
-      return [<mask maskUnits="userSpaceOnUse" key="Marker-defs-circle" id="circle">
-                <rect width={width} height={height} fill="#FFFFFF" />
-                <circle cx={origin.x} cy={origin.y} r={radius} fill="#000000"></circle>
-            </mask>]
-
-    }
-  },
-
-  render: function() {
-
-    const fieldSize = this.props.fieldSize;
     const GU = this.props.gridUnit;
-    const origin = {x: Math.floor(this.props.stageWidth / 2), y: Math.floor(this.props.stageHeight / 2)};
+    const origin = this.props.origin;
+    const skin = this.props.skin;
 
-    const circleRadius = ForceFieldAnatomy.CENTER_RADIUS;
-    // circelA = 14 => r = 2.11 für contextA = 21.5 == coreA = 5*5 - 1/4 circleA
-    // const circleRadius = 2.11 * this.props.gridUnit;
-
-    const gridUnit = this.props.gridUnit;
+    const circleRadius = Anatomy.CENTER_RADIUS;
     
-    var groups = [];
-    var props = this.props;
+    const groups = [];
 
-    ForceFieldAnatomy.QUADRANTS.forEach(function(quadrant) {
+    Anatomy.QUADRANTS.forEach((quadrant) => {
 
-      var deg = quadrant.deg;
-      var transform = "rotate(" + deg + ")";
-      var characterMarkerCoordinates = [8 * GU + 1/2 * GU , -8 * GU, 8 * GU, -8 * gridUnit, 8 * gridUnit, -8 * gridUnit - 1/2 * gridUnit].join()
+      const deg = quadrant.deg;
+      const transform = `rotate(${deg})`;
+      const characterMarkerCoordinates = [8 * GU + 1/2 * GU , -8 * GU, 8 * GU, -8 * GU, 8 * GU, -8 * GU - 1/2 * GU].join();
 
       groups.push(
         <g key={deg} transform={transform}>
-        <polyline points={characterMarkerCoordinates} strokeWidth='3' fill='none' stroke={props.skin.marker} />
-        <circle r='6' cx={5 * GU} cy={-5 * GU} fill={props.skin.marker} />
+          <polyline points={characterMarkerCoordinates} strokeWidth='3' fill='none' stroke={skin.marker} />
+          <circle r='6' cx={5 * GU} cy={-5 * GU} fill={skin.marker} />
         </g>
       );
 
@@ -48,10 +32,10 @@ export default React.createClass({
 
     groups.push(
       <circle key={'circle'} cx={0} cy={0} r={circleRadius * GU} fill='none' strokeWidth='3' stroke={this.props.skin.marker} />
-    )
+    );
 
-    let transform = 'translate(' + origin.x + ',' + origin.y + ')';
+    const transform = `translate(${origin.x},${origin.y})`;
     return <g id="Marker" className="Marker" transform={transform}>{groups}</g>;
 
   }
-});
+}
