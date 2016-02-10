@@ -15,10 +15,10 @@ const finalCreateStore = compose(
 const store = finalCreateStore(reducer);
 
 const initialState = fromJS({energies: [
-  {id: uuid.v1(), x: -1, y: -1, strength: 10, isMuted: false},
-  {id: uuid.v1(), x: 1, y: 1, strength: -10, isMuted: false},
-  {id: uuid.v1(), x: -1, y: 1, strength: -10, isMuted: false},
-  {id: uuid.v1(), x: 1, y: -1, strength: 10, isMuted: false},
+  {id: uuid.v1(), x: -1, y: -1, strength: 1, isMuted: false},
+  {id: uuid.v1(), x: 1, y: 1, strength: -1, isMuted: false},
+  {id: uuid.v1(), x: -1, y: 1, strength: -1, isMuted: false},
+  {id: uuid.v1(), x: 1, y: -1, strength: 1, isMuted: false},
 ]});
 store.dispatch(setState(initialState));
 

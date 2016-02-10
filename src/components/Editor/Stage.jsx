@@ -32,8 +32,8 @@ export class Stage extends Component {
                      dots:   "#FFFFFF",
                      marker: "#FFFFFF",
                      lines: "#F2F2F2",
-                     positiveArrow: "#008000",
-                     negativeArrow: "#800000",
+                     positiveArrow: "#00A000",
+                     negativeArrow: "#A00000",
                      background: '#000000',
                    };
 

@@ -10,11 +10,12 @@ export class Forces extends Component {
 
   render() {
     const {
-      gridUnit, scaleFactor,
+      gridUnit, scaleFactor, energies,
       minArrowLength, arrowTriangleSize, arrowsPerSide,
+      skin,
     } = this.props;
 
-    const forceCalculator = new ForceFieldCalculator(this.props.energies);
+    const forceCalculator = new ForceFieldCalculator(energies);
 
     const arrows = ForceFieldAnatomy.QUADRANTS.map((quadrant) => {
       const arrows = [];
@@ -30,6 +31,7 @@ export class Forces extends Component {
           if (arrowLength < minArrowLength) {
             continue;
           }
+
           const scaledX = x * scaleFactor;
           const scaledY = -y * scaleFactor;
 
@@ -41,7 +43,7 @@ export class Forces extends Component {
               x2={scaledX}
               y2={scaledY + arrowLength}
               triangleSize={arrowTriangleSize}
-              skin={this.props.skin} />
+              skin={skin} />
             );
 
         }
